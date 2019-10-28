@@ -30,6 +30,7 @@ namespace GameFinder
             services.AddDbContext<GameFinderContext>(opt =>
                 opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +45,9 @@ namespace GameFinder
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            // Register the Swagger generator and Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             // app.UseHttpsRedirection();
             app.UseMvc();
         }
