@@ -33,7 +33,30 @@ namespace GameFinder.Models
 
                     new Game { GameId = 9, Name = "Operation", Type = "Physical Skill", Publisher = "Hasbro", MaxPlayers = 5, MinPlayers = 1, MinAge = 6, AvgPlayTime = 10},
 
-                    new Game { GameId = 10, Name = "Risk", Type = "Strategy", Publisher = "Hasbro", MaxPlayers = 6, MinPlayers = 2, MinAge = 6, AvgPlayTime = 360}
+                    new Game { GameId = 10, Name = "Risk", Type = "Strategy", Publisher = "Hasbro", MaxPlayers = 6, MinPlayers = 2, MinAge = 6, AvgPlayTime = 360},
+
+                    new Game { GameId = 11, Name = "Zombicide", Type = "Strategy", Publisher = "Guillotine Games", MaxPlayers = 6, MinPlayers = 1, MinAge = 14, AvgPlayTime = 120 },
+
+                    new Game { GameId = 12, Name = "Sythe", Type = "Strategy", Publisher = "Stonemeier Games", MaxPlayers = 5, MinPlayers = 1, MinAge = 14, AvgPlayTime = 120 },
+
+                    new Game { GameId = 13, Name = "Rummy", Type = "Card", Publisher = "None", MaxPlayers = 6, MinPlayers = 1, MinAge = 12, AvgPlayTime = 120 },
+
+                    new Game { GameId = 14, Name = "Phase 10", Type = "Card", Publisher = "Mattel", MaxPlayers = 6, MinPlayers = 2, MinAge = 7, AvgPlayTime = 60 },
+
+                    new Game { GameId = 15, Name = "Dungeons & Dragons", Type = "RPG", Publisher = "Wizards of the Coast", MaxPlayers = 10, MinPlayers = 3, MinAge = 12, AvgPlayTime = 360 },
+
+                    new Game { GameId = 16, Name = "Magic the Gathering", Type = "Card", Publisher = "Wizards of the Coast", MaxPlayers = 5, MinPlayers = 2, MinAge = 12, AvgPlayTime = 60 },
+
+                    new Game { GameId = 17, Name = "Apples to Apples", Type = "Card", Publisher = "Mattel", MaxPlayers = 10, MinPlayers = 4, MinAge = 12, AvgPlayTime = 60 },
+
+                    new Game { GameId = 18, Name = "Betrayal at House on the Hill", Type = "Board", Publisher = "Avalon Hill Games, Inc", MaxPlayers = 6, MinPlayers = 3, MinAge = 12, AvgPlayTime = 60 },
+
+                    new Game { GameId = 19, Name = "Elder Sign", Type = "Board", Publisher = "Fantasy Fight Games", MaxPlayers = 8, MinPlayers = 1, MinAge = 13, AvgPlayTime = 90 },
+
+                    new Game { GameId = 20, Name = "Skyrim", Type = "Video", Publisher = "Bethesda Softworks", MaxPlayers = 8, MinPlayers = 1, MinAge = 17, AvgPlayTime = 60000 },
+
+                    new Game { GameId = 21, Name = "Giant Killer Robots", Type = "Tabletop", Publisher = "Weta Workshop", MaxPlayers = 4, MinPlayers = 1, MinAge = 12, AvgPlayTime = 120 }
+
                 );
         }
     }

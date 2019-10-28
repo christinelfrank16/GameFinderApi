@@ -19,9 +19,35 @@ namespace GameFinder.Controllers
 
         // GET api/games
         [HttpGet]
-        public ActionResult<IEnumerable<Game>> Get()
+        public ActionResult<IEnumerable<Game>> Get(string name, string type, string publisher, int maxplayers, int minplayers, int minage)
         {
-            return _db.Games.ToList();
+            var query = _db.Games.AsQueryable();
+
+            if (name != null)
+            {
+                query = query.Where(entry => entry.Name.ToLower().Contains(name.ToLower())); 
+            }
+            if (type != null)
+            {
+                query = query.Where(entry => entry.Type.ToLower().Contains(type.ToLower()));
+            }
+            if (publisher != null)
+            {
+                query = query.Where(entry => entry.Publisher.ToLower().Contains(publisher.ToLower()));
+            }
+            if (maxplayers != 0)
+            {
+                query = query.Where(entry => entry.MaxPlayers <= maxplayers);
+            }
+            if (minplayers != 0)
+            {
+                query = query.Where(entry => entry.MinPlayers >= minplayers);
+            }
+            if (minage != 0)
+            {
+                query = query.Where(entry => entry.MinAge >= minage);
+            }
+            return query.ToList();
         }
 
         // POST api/games

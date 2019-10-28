@@ -2,14 +2,16 @@
 using GameFinder.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameFinder.Migrations
 {
     [DbContext(typeof(GameFinderContext))]
-    partial class GameFinderContextModelSnapshot : ModelSnapshot
+    [Migration("20191028230426_SeedMoreGames")]
+    partial class SeedMoreGames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
