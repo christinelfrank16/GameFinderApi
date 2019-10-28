@@ -10,6 +10,5 @@ namespace GameFinder.Models
         public int MinPlayers { get; set; }
         public int MinAge { get; set; }
         public int AvgPlayTime { get; set; }
-
     }
 }
