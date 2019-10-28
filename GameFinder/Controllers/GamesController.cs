@@ -5,6 +5,7 @@ using GameFinder.Models;
 
 namespace GameFinder.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class GamesController : ControllerBase

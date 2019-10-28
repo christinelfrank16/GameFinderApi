@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using GameFinder.Models;
 
 namespace GameFinder
@@ -29,6 +30,16 @@ namespace GameFinder
         {
             services.AddDbContext<GameFinderContext>(opt =>
                 opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddApiVersioning(o =>
+            {
+                o.ApiVersionReader = ApiVersionReader.Combine(
+                    new QueryStringApiVersionReader(),
+                    new HeaderApiVersionReader("api-version")
+                );
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });    
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument();
         }
