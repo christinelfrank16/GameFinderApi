@@ -5,9 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Text;
 using GameFinder.Models;
+using GameFinder.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameFinder.Controllers
 {
@@ -17,17 +21,23 @@ namespace GameFinder.Controllers
     public class LoginController : Controller
     {
         private IConfiguration _config;
+        private GameFinderContext _db;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
 
-        public LoginController(IConfiguration config)
+        public LoginController(IConfiguration config, GameFinderContext db, UserManager<User> userManager,
+        SignInManager<User> signInManager)
         {
             _config = config;
+            _db = db;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]User login)
+        public async Task<IActionResult> Login([FromBody]LoginUser apiUser)
         {
-            IActionResult response = Unauthorized();
-            var user = AuthenticateUser(login.Username, login.Password);
+            var user = await AuthenticateUser(apiUser.UserName, apiUser.Password);
 
             if (user == null)
             {
@@ -35,6 +45,31 @@ namespace GameFinder.Controllers
             }
 
             return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody]RegisterUser apiUser)
+        {
+            var user = new User { UserName = apiUser.UserName, Email = apiUser.Email, FirstName = apiUser.FirstName, LastName = apiUser.LastName };
+            IdentityResult result = await _userManager.CreateAsync(user, apiUser.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                var errorList = result.Errors.ToList();
+                string errorMsg = "The following error(s) occurred: ";
+                foreach (var error in errorList)
+                {
+                    errorMsg += error.Code + " " + error.Description + " ";
+                }
+
+                return BadRequest(new { message = errorMsg });
+            }
         }
 
         private string GenerateJSONWebToken(User userInfo)
@@ -51,22 +86,31 @@ namespace GameFinder.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User AuthenticateUser(string username, string password)
+        private async Task<User> AuthenticateUser(string username, string password)
         {
-            var user = GameFinder.Models.User._users.FirstOrDefault(x => x.Username == username && x.Password == password);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: true, lockoutOnFailure: false);
+            GameFinder.Models.User user;
 
-            if(user == null)
+            if(!result.Succeeded)
             {
                 return null;
+            }
+            else{
+                user = _userManager.Users.FirstOrDefault(r => r.UserName == username);
             }
 
             // generate then set valid token
             user.Token = GenerateJSONWebToken(user);
-
-            // remove password before returning
-            user.Password = null;
+            UpdateUserToken(user);
             
             return user;
         }
+
+        private void UpdateUserToken(User user)
+        {
+            _db.Entry(user).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+
     }
 }

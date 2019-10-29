@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using GameFinder.Models;
 
 namespace GameFinder.Controllers
@@ -8,6 +9,7 @@ namespace GameFinder.Controllers
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GamesController : ControllerBase
     {
         private GameFinderContext _db;

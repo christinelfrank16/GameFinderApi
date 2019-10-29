@@ -1,18 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace GameFinder.Models
 {
-    public class GameFinderContext : DbContext
+    public class GameFinderContext : IdentityDbContext<User>
     {
-        public GameFinderContext(DbContextOptions<GameFinderContext> options)
-            : base(options)
-        {
-        }
+        public GameFinderContext(DbContextOptions options): base(options){ }
 
         public DbSet<Game> Games { get; set; }
+        public DbSet<User> RegisteredUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<Game>()
                 .HasData(
                     new Game {GameId = 1, Name = "Scrabble", Type = "Board", Publisher = "Hasbro", MaxPlayers = 4, MinPlayers = 2, MinAge = 8, AvgPlayTime = 50},
